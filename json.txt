@@ -1,0 +1,41 @@
+POST REGISTRAR http://localhost:8083/api/user
+{
+    "nombre" : "Marcos",
+    "apellido" : "Rincon",
+    "email" : "marcos.rincon2903@gmail.com",
+    "password" : "123456789",
+    "roles" : ["USER"]
+}
+PUT EDITAR http://localhost:8083/api/user/ID
+{
+    "id": 5,
+    "nombre" : "Alexis",
+    "apellido" : "Rincon",
+    "email" : "marcos.rincon2903@gmail.com",
+    "password" : "123456789",
+    "roles" : ["USER"]
+}
+
+PUT ESTADO http://localhost:8083/api/user/estado/ID
+GET TODOS http://localhost:8083/api/user/
+GET UNO http://localhost:8083/api/user/ID
+
+//---------------------------------------//
+POST REGISTRAR http://localhost:8083/api/documento
+{
+    "nombre" : "Alexis.pdf",
+    "users" : ["5"]
+}
+GET TODOS http://localhost:8083/api/documento
+GET UNO http://localhost:8083/api/documento/ID
+PUT ESTADO http://localhost:8083/api/documento/estado/ID
+PUT FIRMADO http://localhost:8083/api/documento/firmado/ID de DocumentoUser
+
+//--------------------------------------//
+LOGIN http://localhost:8083/api/auth/login
+{
+    "email": "marcos.rincon2903@gmail.com",
+    "password": "hola"
+}
+
+
