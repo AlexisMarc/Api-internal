@@ -181,10 +181,13 @@ public class ImpDocumento {
     }
     
     
-    public Long Firmado(Long id) {
+    public Long Firmado(String nombre, Long id) {
         DocumentoUser DU = iDocumentoUser.getReferenceById(id);
         DU.setDate(fecha.toString());
         DU.setEstado(true);
+        Documento doc = IDocumento.getReferenceById(DU.getDocumento().getId());
+        doc.setNombre(nombre);
+        IDocumento.save(doc);
         return iDocumentoUser.save(DU).getDocumento().getId();
 
     }

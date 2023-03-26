@@ -16,4 +16,6 @@ public interface IUpload {
 	public String save(List<MultipartFile> files) throws Exception;
 	
 	public Stream<Path> loadAll() throws Exception;
+
+	public String edit(MultipartFile file) throws Exception;
 }

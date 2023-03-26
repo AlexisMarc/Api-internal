@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,7 @@ public class ControllerDocumento {
     // ****************************************//
 
     // --------------LISTAR TODOS--------------//
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<List<DTODocumentoComplet>> Documentos() {
         return ResponseEntity.ok(iDocumento.FindAllDocumento());
@@ -40,6 +42,7 @@ public class ControllerDocumento {
 
     // ---------------LISTAR UNO---------------//
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<DTODocumentoComplet> Documento(@PathVariable Long id) {
         DTODocumentoComplet DocumentoOptional = iDocumento.FindOneDocumento(id);
@@ -57,6 +60,7 @@ public class ControllerDocumento {
 
     // ---------------REGISTRAR----------------//
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<DTODocumentoComplet> guardarDocumento(@Valid @RequestBody DTOCreateDocumento Documento) {
         DTODocumentoComplet DocumentoGuardada = iDocumento.CreateDocumento(Documento);
@@ -76,9 +80,9 @@ public class ControllerDocumento {
         return ResponseEntity.ok(iDocumento.FindOneDocumento(id));
     }
 
-    @PutMapping("/firmado/{id}")
-    public ResponseEntity<DTODocumentoComplet> FirmadoDocumento(@PathVariable Long id) {
-        return ResponseEntity.ok(iDocumento.FindOneDocumento(iDocumento.Firmado(id)));
+    @PutMapping("/firmado/{id}/{nombre}")
+    public ResponseEntity<DTODocumentoComplet> FirmadoDocumento(@PathVariable Long id, @PathVariable String nombre) {
+        return ResponseEntity.ok(iDocumento.FindOneDocumento(iDocumento.Firmado(nombre, id)));
     }
 
 }

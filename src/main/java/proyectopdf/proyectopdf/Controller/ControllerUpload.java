@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ import proyectopdf.proyectopdf.Service.Upload.ImpUpload;
 public class ControllerUpload {
     @Autowired
 	private ImpUpload IUpload;
-
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/upload")
 	public ResponseEntity<Response> uploadFiles(@RequestParam("files") List<MultipartFile> files) throws Exception {
 		String nombre = IUpload.save(files);
@@ -40,7 +41,7 @@ public class ControllerUpload {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
 	}
-	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/all")
 	public ResponseEntity<List<File>> getAllFiles() throws Exception {
 		List<File> files = IUpload.loadAll().map(path -> {
@@ -53,9 +54,9 @@ public class ControllerUpload {
 		return ResponseEntity.status(HttpStatus.OK).body(files);
 	}
 
-	@PostMapping("/firm")
-	public ResponseEntity<Response> uploadFilesForm(@RequestParam("file") MultipartFile file) throws Exception {
-		String nombre = IUpload.firm(file);
+	@PostMapping("/firmar")
+	public ResponseEntity<Response> uploadFilesForm(@RequestParam("files") MultipartFile files) throws Exception {
+		String nombre = IUpload.edit(files);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(new Response(nombre));
 	}

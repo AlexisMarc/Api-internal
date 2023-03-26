@@ -43,9 +43,13 @@ public class ImpUpload implements IUpload{
 		return Files.walk(rootFolder, 1).filter(path -> !path.equals(rootFolder)).map(rootFolder::relativize);
 	}
 
-    public String firm(MultipartFile file) throws Exception{
-        String nombre = file.getOriginalFilename();
+	@Override
+	public String edit(MultipartFile file) throws Exception {
+		
+		String nombre = "signed_"+file.getOriginalFilename();
 		Files.copy(file.getInputStream(), this.rootFolder.resolve(nombre));
 		return nombre;
-    }
+	}
+
+	
 }

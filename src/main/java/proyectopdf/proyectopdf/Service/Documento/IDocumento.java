@@ -7,5 +7,5 @@ import proyectopdf.proyectopdf.Model.Documento;
 
 @Repository
 public interface IDocumento extends JpaRepository<Documento, Long> {
-    
+    Documento findByNombre(String nombre);
 }

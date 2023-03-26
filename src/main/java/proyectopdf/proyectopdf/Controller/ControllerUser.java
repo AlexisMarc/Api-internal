@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,7 @@ public class ControllerUser {
     // ****************************************//
 
     // --------------LISTAR TODOS--------------//
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public ResponseEntity<List<DTOUser>> Users() {
         return ResponseEntity.ok(iUser.FindAllUser());
@@ -59,7 +61,7 @@ public class ControllerUser {
     // ****************************************//
     // -------------METODO POST----------------//
     // ****************************************//
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     // ---------------REGISTRAR----------------//
 
     @PostMapping
@@ -75,7 +77,7 @@ public class ControllerUser {
     // ****************************************//
 
     // ----------------EDITAR------------------//
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<DTOUser> actualizarUser(@PathVariable Long id,
             @Valid @RequestBody DTOEditUser User) {
@@ -94,7 +96,7 @@ public class ControllerUser {
     }
 
     // ----------------ESTADO------------------//
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/estado/{id}")
     public ResponseEntity<DTOUser> EstadoUser(@PathVariable Long id) {
         iUser.EstadoUser(id);

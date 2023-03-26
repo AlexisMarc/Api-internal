@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import proyectopdf.proyectopdf.Model.DocumentoUser;
 import proyectopdf.proyectopdf.Model.Role;
@@ -20,6 +22,8 @@ public class ImpUser {
 
     @Autowired 
     private IUser Iuser;
+
+    private PasswordEncoder password = new BCryptPasswordEncoder();
 
     //----PRIVADOS----//
 
@@ -67,7 +71,7 @@ public class ImpUser {
         user.setNombre(DTO.getNombre());
         user.setApellido(DTO.getApellido());
         user.setEmail(DTO.getEmail());
-        user.setPassword(DTO.getPassword());
+        user.setPassword(password.encode(String.valueOf(DTO.getPassword())));
         user.setRoles(stringRoles(DTO.getRoles()));
         user.setEstado(true);
 
